@@ -3,7 +3,7 @@
 
 <div align="center">
 
-| **JLC PCB Plug-in for KiCad** |
+| **A working JLC PCB Plug-in for KiCad** |
 |:-----:|
 
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/bennymeg)
@@ -12,6 +12,7 @@
 </div>
 
 ## Features
+Creates the following files in the column order actually required by JLC:
 1.	Generates gerber files in correct format for production
 2.	Generates BOM file in correct format for production
 3.	Generates Pick and Place file in correct format for assembly
