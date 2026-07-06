@@ -12,7 +12,9 @@
 </div>
 
 ## Features
+
 Creates the following files in the column order actually required by JLC:
+
 1.	Generates gerber files in correct format for production
 2.	Generates BOM file in correct format for production
 3.	Generates Pick and Place file in correct format for assembly
