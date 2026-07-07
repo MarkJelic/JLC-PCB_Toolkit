@@ -1,7 +1,5 @@
-<img src="https://github.com/bennymeg/JLC-Plugin-for-KiCad/blob/master/assets/logo.svg?raw=true"
-    style="display:block margin-left: auto; margin-right: auto;" alt="JLC PCB Plug-in for KiCad">
+# JLC-PCB Toolkit
 
-<div align="center">
 
 | **A working JLC PCB Plug-in for KiCad** |
 |:-----:|
@@ -9,7 +7,6 @@
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/bennymeg)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/bennymeg/fabrication-toolkit/total)
 
-</div>
 
 ## Features
 
