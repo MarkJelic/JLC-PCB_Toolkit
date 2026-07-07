@@ -12,7 +12,7 @@ from typing import Tuple
 
 # Interaction with KiCad.
 import pcbnew  # type: ignore
-from .utils import duplicate_footprint, footprint_has_field, footprint_get_field, footprint_to_degrees, get_plot_plan
+from .utils import footprint_has_field, footprint_get_field, get_plot_plan
 
 # Application definitions.
 from .config import *
@@ -129,11 +129,10 @@ class ProcessManager:
         footprint_rotation = self._get_footprint_rotation(footprint)
         footprint_rotated = footprint_rotation % 90 != 0
 
-        # if the footprint is not rotated by a multiple of 90 degrees, 
-        # the bounding boxes will be off, so we create a temporary copy that is rotated to 0
+        # if the footprint is not rotated by a multiple of 90 degrees, the bounding boxes will be off, so we create a temporary copy that is rotated to 0
         if footprint_rotated:
-            footprint = duplicate_footprint(footprint)
-            footprint_to_degrees(footprint)
+            footprint = footprint.Duplicate()
+            footprint.SetOrientationDegrees(0)
 
         if origin_type == 'Anchor':
             position = footprint.GetPosition()
@@ -254,8 +253,8 @@ class ProcessManager:
                     'Designator': designator,
                     'Mid X': mid_x,
                     'Mid Y': mid_y,
-                    'Rotation': rotation,
                     'Layer': layer,
+                    'Rotation': rotation,
                 })
 
             if not (footprint.GetAttributes() & pcbnew.FP_EXCLUDE_FROM_BOM) and not skip_dnp:
@@ -269,24 +268,20 @@ class ProcessManager:
                 insert = True
                 for component in self.bom:
                     same_footprint = component['Footprint'] == self._normalize_footprint_name(footprint_name)
-                    same_value = component['Value'].upper() == footprint.GetValue().upper()
+                    same_value = component['Comment'].upper() == footprint.GetValue().upper()
                     same_lcsc = component['LCSC Part #'] == self._get_mpn_from_footprint(footprint)
-                    under_limit = component['Quantity'] < bomRowLimit
-
-                    if same_footprint and same_value and same_lcsc and under_limit:
+    
+                    if same_footprint and same_value and same_lcsc:
                         component['Designator'] += ", " + "{}{}{}".format(footprint.GetReference().upper(), "" if unique_id == "" else "_", unique_id)
-                        component['Quantity'] += 1
                         insert = False
                         break
-
+        
                 # add component to BOM
                 if insert:
                     self.bom.append({
+                        'Comment': footprint.GetValue(),
                         'Designator': "{}{}{}".format(footprint.GetReference().upper(), "" if unique_id == "" else "_", unique_id),
                         'Footprint': self._normalize_footprint_name(footprint_name),
-                        'Quantity': 1,
-                        'Value': footprint.GetValue(),
-                        # 'Mount': mount_type,
                         'LCSC Part #': self._get_mpn_from_footprint(footprint),
                     })
 
